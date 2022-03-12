@@ -1,0 +1,10 @@
+<a attributeKey_of_A = "attrib_Value_ofA">
+    <b attributeKey_of_B1 = "attribValue_ofB1" attributeKey_of_B2 = "AttribValue of B2"> 
+        <c attrib = "attribValue of C"> Text inside C_Element</c>
+        <d>Deeeeee</d>
+    </b>
+    <e>
+    </e>
+    <f>
+    </f>
+</a>
