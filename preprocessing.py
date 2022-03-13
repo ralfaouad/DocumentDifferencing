@@ -21,13 +21,18 @@ def preprocessing(elt):
 # parsing Document
 doc = ET.parse("treeA.xml")
 docB = ET.parse("treeB.xml")
+docC = ET.parse("treeC.xml")
+
 
 # Transforming Document to Tree -> PreProcessing
 element = doc.getroot()
 element2 = docB.getroot()
-treeB = preprocessing(element2)
+element3 = docC.getroot()
 
 tree = preprocessing(element)
+treeB = preprocessing(element2)
+treeC = preprocessing(element3)
+
 def printtree(tree,level=0):
         out="\t"*level+tree.tag
         for child in tree:
@@ -46,6 +51,7 @@ def printtree(tree,level=0):
 # print(tree.iter() == treeB.iter())
 
 # print(degree(tree))
+
 for x in tree.iter():
     print(x)
 print("\n")
@@ -54,3 +60,4 @@ for x in treeB.iter():
     
 #print(treeB.iter())
 print(bool(contained_in(tree,treeB)))
+print(bool(contained_in(treeC,treeB)))
