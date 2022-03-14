@@ -76,7 +76,7 @@ def postprocessing(tree):
                 else: str = str + postprocessing(child)
             else: str = str + ">"
                     
-        str = str + "</" + root + ">" 
+        str = str + "</" + root[1:] + ">" 
 
     elif(root[0]=='@'):
         str = str + root[1:] + " : "
