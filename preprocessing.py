@@ -29,9 +29,9 @@ element = doc.getroot()
 element2 = docB.getroot()
 element3 = docC.getroot()
 
-# tree = preprocessing(element)
+tree = preprocessing(element)
 treeB = preprocessing(element2)
-# treeC = preprocessing(element3)
+treeC = preprocessing(element3)
 
 def printtree(tree,level=0):
         out="\t"*level+tree.tag
@@ -76,7 +76,7 @@ def postprocessing(tree):
                 else: str = str + postprocessing(child)
             else: str = str + ">"
                     
-        str = str + "</" + root + ">" 
+        str = str + "</" + root[1:] + ">" 
 
     elif(root[0]=='@'):
         str = str + root[1:] + " : "
