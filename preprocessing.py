@@ -5,16 +5,16 @@ from utils import *
 def preprocessing(elt):
     if elt is None:
         return None
-    newtree = Element(elt.tag)
+    newtree = Element("&" + str(elt.tag))
     for key,value in elt.attrib.items():
-        attr_key = SubElement(newtree,key)
-        attr_value = SubElement(attr_key,value)
+        attr_key = SubElement(newtree, "@" + str(key))
+        attr_value = SubElement(attr_key, "#" + str(value))
     for child in elt:
         newtree.append(preprocessing(child))
-    if elt.text not in [None,"","\n"]:
+    if elt.text is not None:
         tokens = elt.text.split()
         for token in tokens:
-            tk = SubElement(newtree, token)
+            tk = SubElement(newtree, "#" + str(token))
     return newtree    
     
 ######
@@ -40,18 +40,6 @@ def printtree(tree,level=0):
         return out
 
 
-# x = printtree(tree)
-# print(x)
-
-
-# for elt in tree.iter():
-#     print(elt)
-
-# treeB = preprocessing(element)
-# print(tree.iter() == treeB.iter())
-
-# print(degree(tree))
-
 for x in tree.iter():
     print(x)
 print("\n")
@@ -59,5 +47,45 @@ for x in treeB.iter():
     print(x)
     
 #print(treeB.iter())
-print(bool(contained_in(tree,treeB)))
-print(bool(contained_in(treeC,treeB)))
+# print(bool(contained_in(tree,treeB)))
+# print(bool(contained_in(treeC,treeB)))
+
+#print(ET.tostring(treeB, encoding='utf8').decode('utf8'))
+
+def postprocessing(tree): 
+    root = tree.tag
+    str = ""
+
+    if(root[0]=='&'):
+        str = str + "<" + root[1:]
+        if(len(tree) == 0): str = str + ">"
+        counter_for_children = 0
+        counter_for_txt = 0
+
+        for child in tree:
+            if(child.tag[0] == '&'):
+                if(counter_for_children == 0):
+                    str = str + ">"
+                counter_for_children = counter_for_children + 1
+                str = str + postprocessing(child)
+            elif(child.tag[0] == '@'):
+                    str = str + " " + postprocessing(child)
+            elif(child.tag[0] == '#'):
+                if(counter_for_txt == 0):
+                    str = str + ">" + postprocessing(child)
+                else: str = str + postprocessing(child)
+            else: str = str + ">"
+                    
+        str = str + "</" + root + ">" 
+
+    elif(root[0]=='@'):
+        str = str + root[1:] + " : "
+        for child in tree:
+            str = str + postprocessing(child)
+            
+    else:
+        str = str + root[1:] + " "
+
+    return str 
+        
+print(postprocessing(treeB))
