@@ -30,7 +30,7 @@ element2 = docB.getroot()
 element3 = docC.getroot()
 
 # tree = preprocessing(element)
-# treeB = preprocessing(element2)
+treeB = preprocessing(element2)
 # treeC = preprocessing(element3)
 
 def printtree(tree,level=0):
@@ -40,11 +40,11 @@ def printtree(tree,level=0):
         return out
 
 
-for x in tree.iter():
-    print(x)
-print("\n")
-for x in treeB.iter():
-    print(x)
+# for x in tree.iter():
+#     print(x)
+# print("\n")
+# for x in treeB.iter():
+#     print(x)
     
 #print(treeB.iter())
 # print(bool(contained_in(tree,treeB)))

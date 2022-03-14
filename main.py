@@ -2,6 +2,8 @@ import numpy as np
 from preprocessing import preprocessing
 from utils import *
 import xml.etree.ElementTree as ET
+
+
 treeA = preprocessing(ET.parse("treeA.xml").getroot())
 treeB = preprocessing(ET.parse("treeB.xml").getroot())
 
@@ -36,9 +38,6 @@ def TED(A,B):
                             Dist[i][j-1]+cost_ins_tree(listB[j-1],A))
     print("DIST MATRIX\n",Dist)
     return(Dist[M][N])
-
-
-
 
 x = TED(treeA,treeB)
 print(x)
