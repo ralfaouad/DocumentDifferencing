@@ -17,10 +17,10 @@ def cost_upd(n1,n2):
     return 0 if (n1.tag) == (n2.tag) else 1
 
 def cost_ins_tree(treeA, treeB):
-    return 1 if contained_in(treeA,treeB) else len(treeA.iter())
+    return 1 if contained_in(treeA,treeB) else len(list(treeA.iter()))
 
 def cost_del_tree(treeA, treeB):
-    return 1 if contained_in(treeA,treeB) else len(treeA.iter())
+    return 1 if contained_in(treeA,treeB) else len(list(treeA.iter()))
 
 
 #  Contained-in as seen in slides
