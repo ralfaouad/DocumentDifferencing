@@ -1,4 +1,3 @@
-from itertools import count
 from xml.etree.ElementTree import Element
 import numpy as np
 
@@ -25,31 +24,6 @@ def cost_del_tree(treeA, treeB):
 
 
 #  Contained-in as seen in slides
-# def contained_in(treeA, treeB):
-#     all_elts_in_treeA = list(treeA.iter())
-#     all_elts_in_treeB = list(treeB.iter())
-
-#     for elt in all_elts_in_treeB:
-#         if treeA.tag==elt.tag:
-#             children_of_elt=list(elt.iter())
-#             m=0 # pointer in treeA
-#             n=0 # pointer in treeB
-#             found=0
-
-#             while n<len(children_of_elt): # iterating over children_of_elt
-#                 if len(all_elts_in_treeA) == found:
-#                     return True
-#                 if all_elts_in_treeA[m].tag==children_of_elt[n].tag:
-#                     found=found+1
-#                     n=n+1
-#                     m=m+1
-#                 else:
-#                     n=n+1
-#             if len(all_elts_in_treeA) == found:
-#                 return True
-
-
-# Contained-in as we do it when solving
 def contained_in(treeA, treeB):
     all_elts_in_treeA = list(treeA.iter())
     all_elts_in_treeB = list(treeB.iter())
@@ -60,17 +34,16 @@ def contained_in(treeA, treeB):
             m=0 # pointer in treeA
             n=0 # pointer in treeB
             found=0
-            try:
-                while n<len(children_of_elt): # iterating over children_of_elt
-                    if all_elts_in_treeA[m].tag==children_of_elt[n].tag:
-                        found=found+1
-                        n=n+1
-                        m=m+1
-                    else:
-                        n=n+1
-            except: 
-                break
-            
+
+            while n<len(children_of_elt): # iterating over children_of_elt
+                if len(all_elts_in_treeA) == found:
+                    return True
+                if all_elts_in_treeA[m].tag==children_of_elt[n].tag:
+                    found=found+1
+                    n=n+1
+                    m=m+1
+                else:
+                    n=n+1
             if len(all_elts_in_treeA) == found:
                 return True
     
