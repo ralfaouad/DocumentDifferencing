@@ -11,7 +11,7 @@ def preprocessing(elt):
         attr_value = SubElement(attr_key,value)
     for child in elt:
         newtree.append(preprocessing(child))
-    if elt.text not in [None,"","\n"]:
+    if elt.text is not None:
         tokens = elt.text.split()
         for token in tokens:
             tk = SubElement(newtree, token)
@@ -29,9 +29,9 @@ element = doc.getroot()
 element2 = docB.getroot()
 element3 = docC.getroot()
 
-tree = preprocessing(element)
-treeB = preprocessing(element2)
-treeC = preprocessing(element3)
+# tree = preprocessing(element)
+# treeB = preprocessing(element2)
+# treeC = preprocessing(element3)
 
 def printtree(tree,level=0):
         out="\t"*level+tree.tag
@@ -52,12 +52,12 @@ def printtree(tree,level=0):
 
 # print(degree(tree))
 
-for x in tree.iter():
-    print(x)
-print("\n")
-for x in treeB.iter():
-    print(x)
+# for x in tree.iter():
+#     print(x)
+# print("\n")
+# for x in treeB.iter():
+#     print(x)
     
 #print(treeB.iter())
-print(bool(contained_in(tree,treeB)))
-print(bool(contained_in(treeC,treeB)))
+# print(bool(contained_in(tree,treeB)))
+# print(bool(contained_in(treeC,treeB)))
