@@ -1,5 +1,6 @@
 import numpy as np
-from preprocessing import preprocessing
+from processing import preprocessing
+from save import get_matrices, save_matrix
 from utils import *
 import xml.etree.ElementTree as ET
 
@@ -11,16 +12,16 @@ treeB = preprocessing(ET.parse("treeB.xml").getroot())
 def TED(A,B):
     M = degree(A)
     N = degree(B)
-    print("M: ",M,"\tN: ",N)
+    # print("M: ",M,"\tN: ",N)
     listA = []
     for subA in A:
         listA.append(subA)
-    print("listA: ",listA) 
+    # print("listA: ",listA) 
 
     listB = []
     for subB in B:
         listB.append(subB)
-    print("listB: ",listB)
+    # print("listB: ",listB)
 
     Dist = np.zeros(shape=(M + 1, N + 1))
     Dist[0][0] = cost_upd(A,B)
@@ -36,8 +37,14 @@ def TED(A,B):
             Dist[i][j] = min(Dist[i-1][j-1]+TED(listA[i-1],B[j-1]),
                             Dist[i-1][j]+cost_del_tree(listA[i-1],B),
                             Dist[i][j-1]+cost_ins_tree(listB[j-1],A))
-    print("DIST MATRIX\n",Dist)
+    # print("DIST MATRIX\n",Dist)
+    save_matrix(Dist)
     return(Dist[M][N])
 
 x = TED(treeA,treeB)
 print(x)
+
+mtrx = get_matrices()
+for x in mtrx:
+    print(x)
+    print()
