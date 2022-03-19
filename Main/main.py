@@ -1,8 +1,8 @@
 import math
 import numpy as np
-from Main.processing import preprocessing
-from Main.save import get_matrices, save_matrix
-from Main.utils import *
+from processing import preprocessing
+from save import get_matrices, save_matrix
+from utils import *
 import xml.etree.ElementTree as ET
 
 

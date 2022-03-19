@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import Element, SubElement
-from Main.utils import *
+from utils import *
 
 # step i and step iv: preprocessing and postprocessing methods.
 
