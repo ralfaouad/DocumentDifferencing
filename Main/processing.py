@@ -1,7 +1,8 @@
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import Element, SubElement
-from utils import *
-import lxml.etree as et
+from Main.utils import *
+
+# step i and step iv: preprocessing and postprocessing methods.
 
 def preprocessing(elt,depth=0,path=""):
     if elt is None:
