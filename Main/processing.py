@@ -32,19 +32,19 @@ def preprocessing(elt,depth=0,path=""):
     
 ######
 # parsing Document
-docA = ET.parse("C:/Users/ralf/Desktop/DocumentDifferencing/Main/treeA.xml")
-docB = ET.parse("C:/Users/ralf/Desktop/DocumentDifferencing/Main/treeB.xml")
-docC = ET.parse("treeC.xml")
+docA = ET.parse("C:/Users/User/Desktop/Sara/LAU ELE/Spring2022/IDPA/Project 1/DocumentDifferencing-1/Main/treeA.xml")
+# docB = ET.parse("C:/Users/ralf/Desktop/DocumentDifferencing/Main/treeB.xml")
+# docC = ET.parse("treeC.xml")
 
 
 # Transforming Document to Tree -> PreProcessing
 element = docA.getroot()
-element2 = docB.getroot()
-element3 = docC.getroot()
+# element2 = docB.getroot()
+# element3 = docC.getroot()
 
 treeA = preprocessing(element)
-treeB = preprocessing(element2)
-treeC = preprocessing(element3)
+# treeB = preprocessing(element2)
+# treeC = preprocessing(element3)
 
 for x in treeA.iter():
     print(x.tag)
@@ -86,26 +86,7 @@ for x in treeA.iter():
 #         str = str + root[1:] + " "
 #     return str
 
-def postprocessing(root):
-    if root is None:
-        return None
-    tree = Element(root.tag[1:])
-    for child in root:
-        # print(child)
-        match child.tag[0]:
-            case '@':
-                for attr_value in child:
-                    value = attr_value.tag[1:]
-                    tree.set(child.tag[1:],value)
-            case '#':
-                txt=[]
-                # if tree.text is not None:
-                #     txt.append(tree.text)
-                txt.append(child.tag[1:])
-                tree.text = " ".join(txt)
-            case '&':
-                tree.append(postprocessing(child)) 
-    return tree
+
 
 # toWrite = postprocessing(treeA)
 # tree = ET.ElementTree(toWrite)

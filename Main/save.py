@@ -1,5 +1,6 @@
 matrices = []
 edit_scripts = []
+
 def save_matrix(matrix):
     matrices.append(matrix)
 
@@ -9,3 +10,9 @@ def get_matrices():
 
 def get_matrix(i):
     return matrices[i]
+
+def save_script(script):
+    edit_scripts.append(script)
+
+def get_script():
+    return edit_scripts
