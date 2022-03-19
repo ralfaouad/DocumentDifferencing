@@ -32,8 +32,8 @@ def preprocessing(elt,depth=0,path=""):
     
 ######
 # parsing Document
-docA = ET.parse("treeA.xml")
-docB = ET.parse("treeB.xml")
+docA = ET.parse("C:/Users/ralf/Desktop/DocumentDifferencing/Main/treeA.xml")
+docB = ET.parse("C:/Users/ralf/Desktop/DocumentDifferencing/Main/treeB.xml")
 docC = ET.parse("treeC.xml")
 
 
@@ -112,7 +112,7 @@ def postprocessing(root):
 # with open('output.xml','w') as f:
 #     tree.write(f,encoding="unicode")
 
-print(get_tree("0.0.1.1",treeA))
+# print(get_tree("0.0.1.1",treeA))
 
 
 
