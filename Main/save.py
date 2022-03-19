@@ -7,9 +7,5 @@ def get_matrices():
     toReturn = list(reversed(matrices))
     return toReturn
 
-def save_script(script):
-    edit_scripts.append(script)
-
-def get_script():
-    toReturn = list(reversed(edit_scripts))
-    return toReturn
+def get_matrix(i):
+    return matrices[i]
