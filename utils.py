@@ -47,12 +47,20 @@ def contained_in(treeA, treeB):
             if len(all_elts_in_treeA) == found:
                 return True
 
+def get_tree(path,tree):
+    path_list = path.split(".")
+    print("Awal l method abel l if:\t "+ str(path_list))
+    if(len(path_list) == 1):#2):
+        return tree
+    # print(path_list)
+    target = int(path_list[1])
 
-                
-    
+    children =[]
+    for child in tree:
+        children.append(child)
+    print("children list: \t"+str(children))
+    if(len(children) == 0):
+        return tree
+    else: return get_tree(".".join(path_list[1:]) , children[target])
 
-
-
-
-
-
+        

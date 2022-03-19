@@ -1,6 +1,6 @@
 <a>
-<b>
-<c></c>
-<d></d>
+<b >
+<c attribK = "attribVal" sara = "Karam"></c>
+<d>Text1 Text2</d>
 </b>
 </a>

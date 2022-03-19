@@ -3,24 +3,35 @@ from xml.etree.ElementTree import Element, SubElement
 from utils import *
 import lxml.etree as et
 
-def preprocessing(elt):
+def preprocessing(elt,depth=0,path=""):
     if elt is None:
         return None
-    newtree = Element("&" + str(elt.tag))
+    newtree = Element(path + str(depth) + ".&" + str(elt.tag))
+
+    new_path = path + str(depth) + "." 
+    d = 0
+
     for key,value in sorted(elt.attrib.items()):
-        attr_key = SubElement(newtree, "@" + str(key))
-        attr_value = SubElement(attr_key, "#" + str(value))
+        attr_path = new_path + str(d) + "."
+        attr_key = SubElement(newtree, attr_path + "@" + str(key))
+        attr_value = SubElement(attr_key, attr_path + "0." + "#" + str(value))
+        d += 1
+    
     for child in elt:
-        newtree.append(preprocessing(child))
+        newtree.append(preprocessing(child, d, new_path))
+        d += 1
+
     if elt.text is not None:
         tokens = elt.text.split()
         for token in tokens:
-            tk = SubElement(newtree, "#" + str(token))
+            tk = SubElement(newtree, new_path + str(d) + ".#" + str(token))
+            d+=1
     return newtree    
+
     
 ######
 # parsing Document
-docA = ET.parse("SampleDoc1 (original).xml")
+docA = ET.parse("treeA.xml")
 docB = ET.parse("treeB.xml")
 docC = ET.parse("treeC.xml")
 
@@ -34,14 +45,9 @@ treeA = preprocessing(element)
 treeB = preprocessing(element2)
 treeC = preprocessing(element3)
 
-def printtree(tree,level=0):
-        out="\t"*level+tree.tag
-        for child in tree:
-            out=out+"\n"+ (printtree(child,level+1))
-        return out
+for x in treeA.iter():
+    print(x.tag)
 
-
-    
 # def postprocessing(tree): 
 #     root = tree.tag
 #     str = ""
@@ -92,18 +98,20 @@ def postprocessing(root):
                     tree.set(child.tag[1:],value)
             case '#':
                 txt=[]
-                if tree.text is not None:
-                    txt.append(tree.text)
+                # if tree.text is not None:
+                #     txt.append(tree.text)
                 txt.append(child.tag[1:])
                 tree.text = " ".join(txt)
             case '&':
                 tree.append(postprocessing(child)) 
     return tree
 
-toWrite = postprocessing(treeB)
-tree = ET.ElementTree(toWrite)
-with open('output.xml','w') as f:
-    tree.write(f,encoding="unicode")
+# toWrite = postprocessing(treeA)
+# tree = ET.ElementTree(toWrite)
+# with open('output.xml','w') as f:
+#     tree.write(f,encoding="unicode")
+
+print(get_tree("0.0.1.1",treeA))
 
 
 
