@@ -6,8 +6,8 @@ from utils import *
 import xml.etree.ElementTree as ET
 
 
-treeA = preprocessing(ET.parse("C:/Users/ralf/Desktop/DocumentDifferencing/Main/treeA.xml").getroot())
-treeB = preprocessing(ET.parse("C:/Users/ralf/Desktop/DocumentDifferencing/Main/treeB.xml").getroot())
+treeA = preprocessing(ET.parse("C:/Users/User/Desktop/Sara/LAU ELE/Spring2022/IDPA/Project 1/DocumentDifferencing-1/Main/treeA.xml").getroot())
+treeB = preprocessing(ET.parse("C:/Users/User/Desktop/Sara/LAU ELE/Spring2022/IDPA/Project 1/DocumentDifferencing-1/Main/treeB.xml").getroot())
 
 
 def TED(A,B):
@@ -46,6 +46,14 @@ def TED(A,B):
             delete = Dist[i-1][j]+cost_del_tree(listA[i-1],B)
             insert = Dist[i][j-1]+cost_ins_tree(listB[j-1],A)
             Dist[i][j] = min(insert,delete,update)
+
+            if Dist[i][j] == update:
+                s = str(listA[i-1].tag) + ":" + str(B[j-1].tag)
+            elif Dist[i][j] == delete:
+                s = str(listA[i-1].tag) + ":" + str(B[j].tag)
+            else: s = str(listA[i].tag) + ":" + str(B[j-1].tag)
+
+            ES[i][j] = s
             # if Dist[i][j] == insert and cost_ins_tree(listB[j-1],A) != 0: 
             #     script.append("ins("+str(listB[j-1])+")")
             # elif Dist[i][j] == delete and cost_del_tree(listA[i-1],B) != 0:
@@ -55,9 +63,10 @@ def TED(A,B):
             #         script.append("ted("+str(listA[i-1])+", "+str(listB[j-1])+")")
     print("DIST MATRIX\n",Dist)
     save_matrix(Dist)
+    
     # save_script(ES)
-    print(ES)
-    # print(script)
+    # print(ES)
+
     return(Dist[M][N])
 
 # def ES(matrices,index=0):
