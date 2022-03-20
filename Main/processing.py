@@ -33,17 +33,17 @@ def preprocessing(elt,depth=0,path=""):
 ######
 # parsing Document
 docA = ET.parse("C:/Users/User/Desktop/Sara/LAU ELE/Spring2022/IDPA/Project 1/DocumentDifferencing-1/Main/treeA.xml")
-# docB = ET.parse("C:/Users/ralf/Desktop/DocumentDifferencing/Main/treeB.xml")
+docB = ET.parse("C:/Users/User/Desktop/Sara/LAU ELE/Spring2022/IDPA/Project 1/DocumentDifferencing-1/Main/treeB.xml")
 # docC = ET.parse("treeC.xml")
 
 
 # Transforming Document to Tree -> PreProcessing
 element = docA.getroot()
-# element2 = docB.getroot()
+element2 = docB.getroot()
 # element3 = docC.getroot()
 
 treeA = preprocessing(element)
-# treeB = preprocessing(element2)
+treeB = preprocessing(element2)
 # treeC = preprocessing(element3)
 
 for x in treeA.iter():
@@ -95,6 +95,7 @@ for x in treeA.iter():
 
 # print(get_tree("0.0.1.1",treeA))
 
-
-
+for child in treeA.iter():
+    print(child)
+    print(contained_in(child, treeB))
 

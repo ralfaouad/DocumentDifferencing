@@ -47,13 +47,12 @@ def TED(A,B):
             insert = Dist[i][j-1]+cost_ins_tree(listB[j-1],A)
             Dist[i][j] = min(insert,delete,update)
 
+            print("Update: " + str(update) + "; Delete: " + str(delete) + "; Insert: " + str(insert))
             if Dist[i][j] == update:
                 s = str(listA[i-1].tag) + ":" + str(B[j-1].tag)
-            else:
-                delete_matrix()
-                if Dist[i][j] == delete:
-                    s = str(listA[i-1].tag) + ":" + str(B[j].tag)
-                else: s = str(listA[i].tag) + ":" + str(B[j-1].tag)
+            elif Dist[i][j] == delete:
+                s = str(listA[i-1].tag) + ":" + str(B[j].tag)
+            else: s = str(listA[i].tag) + ":" + str(B[j-1].tag)
 
             ES[i][j] = s
             # if Dist[i][j] == insert and cost_ins_tree(listB[j-1],A) != 0: 
@@ -63,11 +62,11 @@ def TED(A,B):
             # else:
             #     if TED(listA[i-1],B[j-1])!= 0:
             #         script.append("ted("+str(listA[i-1])+", "+str(listB[j-1])+")")
-    print("DIST MATRIX\n",Dist)
-    save_matrix(Dist)
+    # print("DIST MATRIX\n",Dist)
+    # save_matrix(Dist)
     
-    # save_script(ES)
-    # print(ES)
+    save_script(ES)
+    print(ES)
 
     return(Dist[M][N])
 
@@ -90,6 +89,10 @@ def TED(A,B):
 
 x = TED(treeA,treeB)
 print(x)
+
+
+
+# print(contained_in(get_tree("0.0.0.0",treeB), treeA))
 
 
 

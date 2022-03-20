@@ -39,17 +39,18 @@ def contained_in(treeA, treeB):
     rootB = re.split('@|#|&',treeB.tag)[1]
     
     if(rootA == rootB):
-        if(get_size(treeA)) == 1:
+        if get_size(treeA) == 1 and get_size(treeB) == 1:
             return True
 
-        children_B = []
-        for child_B in treeB:
-            children_B.append(child_B)
-        for child_A in treeA:
-            while(children_B):
-                if re.split('@|#|&',child_A.tag)[1] == re.split('@|#|&',children_B.pop(0).tag)[1] :
-                    break
-            if(children_B): return contained_in(t)
+        if get_size(treeA) > 1:
+            children_B = []
+            for child_B in treeB:
+                children_B.append(child_B)
+            for child_A in treeA:
+                while(children_B):
+                    if re.split('@|#|&',child_A.tag)[1] == re.split('@|#|&',children_B.pop(0).tag)[1] :
+                        break
+                if(children_B): return contained_in(t)
     
     a = False
     for child_B in treeB:
