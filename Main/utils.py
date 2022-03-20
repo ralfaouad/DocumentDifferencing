@@ -1,3 +1,5 @@
+from logging import root
+from re import A
 from xml.etree.ElementTree import Element
 import numpy as np
 import regex as re
@@ -7,7 +9,15 @@ def degree(root):
     for child in root:
         deg+=1
     return deg
-    
+
+def get_size(root):
+    # includes root
+    count = 0
+    for element in root.iter():
+        count +=1
+    return count
+
+
 def cost_ins(n):
     return 1
 
@@ -23,29 +33,28 @@ def cost_ins_tree(treeA, treeB):
 def cost_del_tree(treeA, treeB):
     return 1 if contained_in(treeA,treeB) else len(list(treeA.iter()))
 
-#  Contained-in as seen in slides
+
 def contained_in(treeA, treeB):
-    all_elts_in_treeA = list(treeA.iter())
-    all_elts_in_treeB = list(treeB.iter())
+    rootA = re.split('@|#|&',treeA.tag)[1]
+    rootB = re.split('@|#|&',treeB.tag)[1]
+    
+    if(rootA == rootB):
+        if(get_size(treeA)) == 1:
+            return True
 
-    for elt in all_elts_in_treeB:
-        if re.split('@|#|&',treeA.tag)[1]==re.split('@|#|&',elt.tag)[1]:
-            children_of_elt=list(elt.iter())
-            m=0 # pointer in treeA
-            n=0 # pointer in treeB
-            found=0
-
-            while n<len(children_of_elt): # iterating over children_of_elt
-                if len(all_elts_in_treeA) == found:
-                    return True
-                if re.split('@|#|&',all_elts_in_treeA[m].tag)[1]==re.split('@|#|&',children_of_elt[n].tag)[1]:
-                    found=found+1
-                    n=n+1
-                    m=m+1
-                else:
-                    n=n+1
-            if len(all_elts_in_treeA) == found:
-                return True
+        children_B = []
+        for child_B in treeB:
+            children_B.append(child_B)
+        for child_A in treeA:
+            while(children_B):
+                if re.split('@|#|&',child_A.tag)[1] == re.split('@|#|&',children_B.pop(0).tag)[1] :
+                    break
+            if(children_B): return contained_in(t)
+    
+    a = False
+    for child_B in treeB:
+        a = a or contained_in(treeA, child_B)
+    return a
 
 def get_tree(path,tree):
     path_list = path.split(".")
@@ -63,4 +72,3 @@ def get_tree(path,tree):
         return tree
     else: return get_tree(".".join(path_list[1:]) , children[target])
 
-        
