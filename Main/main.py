@@ -49,9 +49,11 @@ def TED(A,B):
 
             if Dist[i][j] == update:
                 s = str(listA[i-1].tag) + ":" + str(B[j-1].tag)
-            elif Dist[i][j] == delete:
-                s = str(listA[i-1].tag) + ":" + str(B[j].tag)
-            else: s = str(listA[i].tag) + ":" + str(B[j-1].tag)
+            else:
+                delete_matrix()
+                if Dist[i][j] == delete:
+                    s = str(listA[i-1].tag) + ":" + str(B[j].tag)
+                else: s = str(listA[i].tag) + ":" + str(B[j-1].tag)
 
             ES[i][j] = s
             # if Dist[i][j] == insert and cost_ins_tree(listB[j-1],A) != 0: 
