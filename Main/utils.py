@@ -50,7 +50,7 @@ def contained_in(treeA, treeB):
                 while(children_B):
                     if re.split('@|#|&',child_A.tag)[1] == re.split('@|#|&',children_B.pop(0).tag)[1] :
                         break
-                if(children_B): return contained_in(t)
+                if(children_B): return contained_in(child_A,treeB)
     
     a = False
     for child_B in treeB:
