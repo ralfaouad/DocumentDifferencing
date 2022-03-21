@@ -1,6 +1,12 @@
 matrices = []
 edit_scripts = []
 
+def print_matrix(matrix):
+    for r in range(len(matrix)):
+        for c in range(len(matrix[0])):
+            print(matrix[r][c], end = "\t"*2)
+        print()
+
 def save_matrix(matrix):
     matrices.append(matrix)
 
@@ -15,18 +21,5 @@ def get_matrices():
     # return toReturn
     return matrices
 
-def del_matrices(i, j, n, m):
-    # i,j -> indexes of current element in the matrix
-    # n, m -> # of rows and columns in the matrix
-    for i in range(n*m):
-        matrices.remove(index+1)
-
-
-def get_matrix(i):
-    return matrices[i]
-
-def save_script(script):
-    edit_scripts.append(script)
-
-def get_script():
-    return edit_scripts
+def get_matrix():
+    return matrices.pop()

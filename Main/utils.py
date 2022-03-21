@@ -17,7 +17,6 @@ def get_size(root):
         count +=1
     return count
 
-
 def cost_ins(n):
     return 1
 
@@ -73,3 +72,8 @@ def get_tree(path,tree):
         return tree
     else: return get_tree(".".join(path_list[1:]) , children[target])
 
+def path(element):
+    return re.split('@|#|&',element)[0]
+
+def element_name(element):
+    return re.split('@|#|&',element)[1]    
