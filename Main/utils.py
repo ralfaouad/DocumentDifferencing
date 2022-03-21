@@ -1,7 +1,4 @@
-from logging import root
-from re import A
 from xml.etree.ElementTree import Element
-import numpy as np
 import regex as re
 
 def degree(root):
@@ -58,8 +55,9 @@ def contained_in(treeA, treeB):
 
 def get_tree(path,tree):
     path_list = path.split(".")
-    print("Awal l method abel l if:\t "+ str(path_list))
-    if(len(path_list) == 1):#2):
+    print(path_list)
+    # print("Awal l method abel l if:\t "+ str(path_list))
+    if(len(path_list) == 1):
         return tree
     # print(path_list)
     target = int(path_list[1])
@@ -73,7 +71,11 @@ def get_tree(path,tree):
     else: return get_tree(".".join(path_list[1:]) , children[target])
 
 def path(element):
-    return re.split('@|#|&',element)[0]
+    return re.split('.@|.#|.&',element)[0]
 
 def element_name(element):
-    return re.split('@|#|&',element)[1]    
+    l = str(element).split(".")
+    return l[-1]   
+
+
+

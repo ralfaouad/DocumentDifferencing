@@ -4,7 +4,7 @@ edit_scripts = []
 def print_matrix(matrix):
     for r in range(len(matrix)):
         for c in range(len(matrix[0])):
-            print(matrix[r][c], end = "\t"*2)
+            print(matrix[r][c], end = "\t"*3)
         print()
 
 def save_matrix(matrix):

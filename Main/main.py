@@ -4,6 +4,8 @@ from processing import preprocessing
 from save import *
 from utils import *
 import xml.etree.ElementTree as ET
+from xml.etree.ElementTree import ElementTree
+from patching import *
 
 
 treeA = preprocessing(ET.parse("C:/Users/User/Desktop/Sara/LAU ELE/Spring2022/IDPA/Project 1/DocumentDifferencing-1/Main/treeA.xml").getroot())
@@ -20,7 +22,6 @@ for subA in treeA.iter():
     costs_del[path] = cdel
 print(costs_del)
 
-
 for subB in treeB.iter():
     path = re.split('@|#|&',subB.tag)[0]
     cins = cost_ins_tree(subB,treeA)
@@ -32,20 +33,16 @@ def save_to_ES(path1, path2, s):
     edit_scripts[key] = s
 
 def TED(A,B):
-    # if A.tag[0] != B.tag[0]:
-    #     return math.inf
     M = degree(A)
     N = degree(B)
-    # print("M: ",M,"\tN: ",N)
+    
     listA = []
     for subA in A:
-        listA.append(subA)
-    # print("listA: ",listA) 
+        listA.append(subA) 
 
     listB = []
     for subB in B:
         listB.append(subB)
-    # print("listB: ",listB)
 
     Dist = [[0 for i in range(N+2)] for j in range(M+2)]
 
@@ -70,17 +67,18 @@ def TED(A,B):
 
     for i in range(2,len(Dist)):
         for j in range(2,len(Dist[0])):
-            update = int(Dist[i-1][j-1])+TED(listA[i-2],B[j-2])
-            delete = int(Dist[i-1][j])+int(costs_del[re.split('@|#|&',listA[i-2].tag)[0]])
-            insert = int(Dist[i][j-1])+int(costs_ins[re.split('@|#|&',listB[j-2].tag)[0]])
-            Dist[i][j] = min(insert,delete,update)
+            if(element_name(A)[0] == element_name(B)[0]):
+                update = int(Dist[i-1][j-1])+TED(listA[i-2],B[j-2])
+                delete = int(Dist[i-1][j])+int(costs_del[re.split('@|#|&',listA[i-2].tag)[0]])
+                insert = int(Dist[i][j-1])+int(costs_ins[re.split('@|#|&',listB[j-2].tag)[0]])
+                Dist[i][j] = min(insert,delete,update)
+            else:
+                delete = int(Dist[i-1][j])+int(costs_del[re.split('@|#|&',listA[i-2].tag)[0]])
+                insert = int(Dist[i][j-1])+int(costs_ins[re.split('@|#|&',listB[j-2].tag)[0]])
+                Dist[i][j] = min(insert,delete)
 
-            # print("Update: " + str(update) + "; Delete: " + str(delete) + "; Insert: " + str(insert))
-
-    save_matrix(Dist)
     save_to_ES(re.split('@|#|&',A.tag)[0], re.split('@|#|&',B.tag)[0], ES(Dist))
-    print_matrix(Dist)
-    # print("Edit Script: " + ES())
+    # print_matrix(Dist)
     return(int(Dist[M+1][N+1]))
 
 def ES(matrix):
@@ -97,38 +95,35 @@ def ES(matrix):
         current = matrix[i][j]
 
         if current == matrix[i-1][j] + costs_del[re.split('@|#|&',matrix[i][0])[0]]:
-            # Delete treeA with path matrix[i][0]
-            # current = matrix[i-1][j]
-            es.append(["Delete", matrix[i][0]])
+            # Del(A, P) => Delete treeA (matrix[i][0]) from parent P (matrix[1][0])
+            es.append(["Del", matrix[i][0], matrix[1][0]])
             i = i - 1
         elif current == matrix[i][j-1] + costs_ins[re.split('@|#|&',matrix[0][j])[0]]:
-            # Insert treeB with path matrix[0][j]
-            # current = matrix[i][j-1]
-            es.append(["Insert",matrix[0][j]])
-            j = j-1
+            # Ins(B, P, i) => Insert subtreeB (matrix[0][j]) at i-th child  of root P (matrix[1][0])
+            es.append(["Ins",matrix[0][j],matrix[1][0],i-1])
+            j = j - 1
         else:
-            # TED of treeA of path matrix[i][0] and treeB of path matrix[0][j]
-            # current = matrix[i-1][j-1]
+            # TED of treeA (matrix[i][0]) and treeB (matrix[0][j])
             es.append(["TED",matrix[i][0],matrix[0][j]])
-            # es += ES(TED(matrix[i][0],matrix[0][j]))
             i = i-1
             j = j - 1
 
     # If left with deletes   
     while(i > 1):
         current = matrix[i][j]
-        es.append(["Delete",matrix[i][0]])
+        es.append(["Del", matrix[i][0], matrix[1][0]])
         i = i - 1
 
     # If left with inserts   
     while(j > 1):
         current = matrix[i][j]
-        es.append(["Insert",matrix[i][0]])
+        es.append(["Ins",matrix[0][j],matrix[1][0],i-1])
         j = j - 1
     
     # At root:
     if(matrix[i][j] == 1):
-        es.append(["Update",matrix[1][0],matrix[0][1]])
+        # Upd(x,elt_l) => Update node x (matrix[1][0]) with the label of treeB (matrix[0][1])
+        es.append(["Upd",matrix[1][0],matrix[0][1]])
 
     return es   
 
@@ -138,16 +133,56 @@ def get_ES(edit_script):
     for operation in edit_script:
         if operation[0]=="TED":
             to_find = str(re.split('@|#|&',operation[1])[0]) + "," + str(re.split('@|#|&',operation[2])[0])
-            final_es.append(get_ES(edit_scripts[to_find]))
+            flattened = [item for sublist in get_ES(edit_scripts[to_find]) for item in sublist]
+            final_es.append(flattened)
         else: final_es.append(operation)
 
     return final_es
 
 x = TED(treeA,treeB)
-print(edit_scripts)
+# print(edit_scripts)
 edit_script = edit_scripts.popitem()[1]
-print(get_ES(edit_script))
-# y = get_ES(edit_script)
-# print("ES: ",y)
-# # print(x)
+final_ES = reversed(get_ES(edit_script))
+# final_ES = [item for sublist in flat_list for item in sublist]
+for x in final_ES:
+    print(x)
+
+for op in get_ES(edit_script):
+    if op[0] == "Ins":
+        insTree(op[1], op[2], op[3])
+    elif op[0] == "Del":
+        delTree(op[1], op[2])
+    else: updTree(str(op[1]), str(op[2]))
+
+def ES_to_XML(final_ES):
+    root = ET.Element("Operations")
+
+    for op in final_ES:
+        if op[0] == "Ins":
+            current_op = ET.SubElement(root, "Ins")
+            A = ET.SubElement(current_op, "A")
+            A.text = str(op[1])
+            P = ET.SubElement(current_op, "P")
+            P.text = str(op[2])
+            i = ET.SubElement(current_op, "i")
+            i.text = str(op[3])
+        elif op[0] == "Del":
+            current_op = ET.SubElement(root, "Del")
+            A = ET.SubElement(current_op, "A")
+            A.text = str(op[1])
+            P = ET.SubElement(current_op, "P")
+            P.text = str(op[2])
+        else: 
+            current_op = ET.SubElement(root, "Upd")
+            x = ET.SubElement(current_op, "X")
+            x.text = str(op[1])
+            elt_l = ET.SubElement(current_op, "L")
+            elt_l.text = str(op[2])
+    
+    with open('EditScript.xml','w') as f:
+       ElementTree(root).write(f,encoding="unicode")
+
+ES_to_XML(final_ES)
+for x in treeA.iter():
+    print(x)
 
