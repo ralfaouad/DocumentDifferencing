@@ -1,10 +1,57 @@
-<a attributeKey_of_A = "attrib_Value_ofA">
-    <b attributeKey_of_B1 = "attribValue_ofB1" attributeKey_of_B2 = "AttribValue of B2"> 
-        <c attrib = "attribValue of C"> Text inside C_Element</c>
-        <d>Deeeeee</d>
-    </b>
-    <e>
-    </e>
-    <f>
-    </f>
-</a>
+<Operations>
+<Del>
+<A>0.5.5.1.1.1.3.&amp;author</A>
+<P>0.5.5.1.1.1.&amp;authors</P>
+</Del>
+<Del>
+<A>0.5.5.1.0.2.0.1.&amp;format</A>
+<P>0.5.5.1.0.2.0.&amp;toAvailableSource</P>
+</Del>
+<Del>
+<A>0.5.4.1.0.2.0.2.&amp;format</A>
+<P>0.5.4.1.0.2.0.&amp;toAvailableSource</P>
+</Del>
+<Upd>
+<X>0.5.0.1.3.2.&amp;Sources</X>
+<L>0.5.0.1.3.2.&amp;availableSources</L>
+</Upd>
+<Ins>
+<A>0.5.0.1.2.1.1.&amp;author</A>
+<P>0.5.0.1.2.1.&amp;authors</P>
+<i>1</i>
+</Ins>
+<Upd>
+<X>0.5.0.1.1.2.0.1.&amp;dataRep</X>
+<L>0.5.0.1.1.2.0.1.&amp;format</L>
+</Upd>
+<Ins>
+<A>0.5.0.1.1.0.5.#Engineering</A>
+<P>0.5.0.1.1.0.&amp;title</P>
+<i>1</i>
+</Ins>
+<Ins>
+<A>0.5.0.1.1.0.4.#Ontology</A>
+<P>0.5.0.1.1.0.&amp;title</P>
+<i>1</i>
+</Ins>
+<Ins>
+<A>0.5.0.1.1.0.3.#versus</A>
+<P>0.5.0.1.1.0.&amp;title</P>
+<i>1</i>
+</Ins>
+<Ins>
+<A>0.5.0.1.1.0.2.#Modelling</A>
+<P>0.5.0.1.1.0.&amp;title</P>
+<i>1</i>
+</Ins>
+<Ins>
+<A>0.5.0.1.1.0.1.#Data</A>
+<P>0.5.0.1.1.0.&amp;title</P>
+<i>1</i>
+</Ins>
+<Ins>
+<A>0.4.3.0.1.4.#Awards</A>
+<P>0.4.3.0.1.&amp;title</P>
+<i>4</i>
+</Ins>
+</Operations>

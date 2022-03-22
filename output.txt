@@ -1,0 +1,4 @@
+UpdTree(0.0.&b,0.0.&m)
+UpdTree(0.0.0.&c,0.0.0.&b)
+insTree(0.0.0.0.&b,0.0.0.&c,0)
+delTree(0.0.1.&d,0.0.&b)

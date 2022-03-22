@@ -265,22 +265,23 @@ def TED(A,B):
 def reformat(es):
     tr = []
     for i in range(len(es)):
-        if op[i] == "Del":
-            dellist = []
-            for j in range(i,i+3):
-                dellist.append(es[j])
-            tr.append(dellist)
-        elif op[i] == "Ins":
-            inslist = []
-            for j in range(i,i+4):
-                inslist.append(es[j])
-            tr.append(inslist)
-        else:
-            if op[i] == "Upd":
-                updlist = []
+        if len(es)!=0:
+            if es[i] == "Del":
+                dellist = []
                 for j in range(i,i+3):
-                    updlist.append(es[j])
-                tr.append(updlist)
+                    dellist.append(es[j])
+                tr.append(dellist)
+            elif es[i] == "Ins":
+                inslist = []
+                for j in range(i,i+4):
+                    inslist.append(es[j])
+                tr.append(inslist)
+            else:
+                if es[i] == "Upd":
+                    updlist = []
+                    for j in range(i,i+3):
+                        updlist.append(es[j])
+                    tr.append(updlist)
             
     return tr
 
@@ -333,6 +334,7 @@ def apply_patch(patch):
     operations = ET.parse(str(patch))
     root = operations.getroot()
     for op in root:
+
         if op.tag == "Ins":
             A = op.find("A").text
             P = op.find("P").text
@@ -347,6 +349,19 @@ def apply_patch(patch):
             L = op.find("L").text
             updTree(X,L)
 
+def print_edit_script(es,ESfile):
+    outputFile = open(ESfile,"w")
+    ops = ""
+    for op in es:
+        if op[0] == "Ins":
+            ops+="insTree("+str(op[1])+","+str(op[2])+","+str(op[3])+")"+"\n"
+        if op[0] == "Del":
+            ops+="delTree("+str(op[1])+","+str(op[2])+")"+"\n"
+        if op[0] == "Upd":
+            ops+="UpdTree("+str(op[1])+","+str(op[2])+")"+"\n"
+    outputFile.write(ops)
+    # outputFile.close()
+
 
 # GUI
 layout = [[sg.Text("Document Differencing Tool")],
@@ -354,6 +369,7 @@ layout = [[sg.Text("Document Differencing Tool")],
         [sg.Text('Document B', size=(15, 1)), sg.InputText(key="DOCB"), sg.FileBrowse(file_types=(("XML Files", "*.xml"), ("ALL Files", "*.*")))],
         [sg.Button("Start")],
         [sg.Text("", size=(0, 1), key='OUTPUT')],
+        [sg.Text("Edit Script File: "),sg.InputText(default_text="C:/Users/ralf/Desktop/DocumentDifferencing/output.txt",key="ES"), sg.FileBrowse(file_types=(("TXT Files", "*.txt"), ("ALL Files", "*.*")))],
         [sg.Text("", size=(0, 1), key='ES')],
         [sg.Text("Patch File Name: "),sg.InputText(key="PATCHNAME"), sg.FileBrowse(file_types=(("XML Files", "*.xml"), ("ALL Files", "*.*")))],
         [sg.Button("Patch")],
@@ -385,14 +401,21 @@ while True:
 
             # Getting the edit script
             edit_script = edit_scripts.popitem()[1]
-            rev_es = reversed(get_ES(edit_script))
-            es =[]
-            for op in rev_es:
-                es.append(op)
-            # print(es)
-            flat_es_list = [item for sublist in es for item in sublist]
-            # print(flat_es_list)
-            finalES = reformat(flat_es_list)
+            # rev_es = reversed(get_ES(edit_script))
+            rev_es = get_ES(edit_script)
+            print(rev_es)
+            print("*"*100)
+            print("rev_es: ",rev_es)
+            flat_es_list = [item for sublist in rev_es for item in sublist]
+            print("flat_es_list: ",flat_es_list)
+            # flat_es_list_trimmmed = list(filter(None, es))
+            # final_list = flat_es_list_trimmmed[0]
+            print("flat_es_list_trimmmed: ",flat_es_list)
+            finalES = reformat(flat_es_list)[::-1]
+            # Final_Edit_Script
+            print("finalES: ",finalES)
+            print(finalES)
+            print_edit_script(finalES,values["ES"])
             #Patched File
             #XML
             window["OUTPUT"].update(value=val)
