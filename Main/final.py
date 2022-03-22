@@ -352,6 +352,7 @@ def apply_patch(patch):
 def print_edit_script(es,ESfile):
     outputFile = open(ESfile,"w")
     ops = ""
+    
     for op in es:
         if op[0] == "Ins":
             ops+="insTree("+str(op[1])+","+str(op[2])+","+str(op[3])+")"+"\n"
