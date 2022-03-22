@@ -1,6 +1,5 @@
 import math
 import numpy as np
-from processing import preprocessing
 from save import *
 from utils import *
 import xml.etree.ElementTree as ET
@@ -8,13 +7,15 @@ from xml.etree.ElementTree import ElementTree
 from patching import *
 
 
-treeA = preprocessing(ET.parse("C:/Users/User/Desktop/Sara/LAU ELE/Spring2022/IDPA/Project 1/DocumentDifferencing-1/Main/treeA.xml").getroot())
-treeB = preprocessing(ET.parse("C:/Users/User/Desktop/Sara/LAU ELE/Spring2022/IDPA/Project 1/DocumentDifferencing-1/Main/treeB.xml").getroot())
+# treeA = preprocessing(ET.parse("C:/Users/ralf/Desktop/DocumentDifferencing/Main/treeA.xml").getroot())
+# treeB = preprocessing(ET.parse("C:/Users/ralf/Desktop/DocumentDifferencing/Main/treeB.xml").getroot())
 
 
 costs_del = {}
 costs_ins = {}
 edit_scripts = {}
+
+
 
 for subA in treeA.iter():
     path = re.split('@|#|&',subA.tag)[0]
@@ -139,7 +140,7 @@ def get_ES(edit_script):
 
     return final_es
 
-x = TED(treeA,treeB)
+# x = TED(treeA,treeB)
 # print(edit_scripts)
 edit_script = edit_scripts.popitem()[1]
 final_ES = reversed(get_ES(edit_script))

@@ -1,0 +1,5 @@
+<Operations>
+<Upd node="0.0.1.0.">newVal</Upd>
+<Ins parent="0." pos="1">tagHere</Ins>
+<Del node="0.0.0.0.0"></Del>
+</Operations>
