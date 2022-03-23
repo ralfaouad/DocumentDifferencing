@@ -1,5 +1,7 @@
 # Semi-structured Document Comparison and Differencing Tool
 This tool compares two XML documents (structure and content), measure the similarities, provides the diff file in an XML format and applies the patching on any of the two documents. 
+## To use
+Only _final.py_ is needed.
 
 ## Contributors
 * Sara Karam - [@saraakaram](https://github.com/saraakaram)
